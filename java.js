@@ -1,8 +1,8 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = 560; 
-canvas.height = 620; 
+canvas.width = 560;
+canvas.height = 620;
 
 const tileSize = 40;
 
@@ -54,37 +54,43 @@ function drawPacman() {
     ctx.closePath();
 }
 
-// Move Pac-Man
+// Move Pac-Man by one block
 function movePacman() {
     let newX = pacman.x + pacman.dx;
     let newY = pacman.y + pacman.dy;
 
-    if (maze[newY][newX] !== 1) {
-        pacman.x = newX;
-        pacman.y = newY;
+    // Check if the new position is within the maze bounds and not a wall
+    if (newX >= 0 && newX < maze[0].length && newY >= 0 && newY < maze.length) {
+        if (maze[newY][newX] !== 1) {
+            pacman.x = newX;
+            pacman.y = newY;
+        }
     }
 }
 
-// Handle keyboard inputs
+// Handle keydown events (move Pac-Man one block)
 document.addEventListener("keydown", (event) => {
     if (event.key === "ArrowUp") {
         pacman.dx = 0;
         pacman.dy = -1;
+        movePacman(); // Move one block
     } else if (event.key === "ArrowDown") {
         pacman.dx = 0;
         pacman.dy = 1;
+        movePacman(); // Move one block
     } else if (event.key === "ArrowLeft") {
         pacman.dx = -1;
         pacman.dy = 0;
+        movePacman(); // Move one block
     } else if (event.key === "ArrowRight") {
         pacman.dx = 1;
         pacman.dy = 0;
+        movePacman(); // Move one block
     }
 });
 
 // Update game frame
 function update() {
-    movePacman();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMaze();
     drawPacman();
@@ -92,4 +98,3 @@ function update() {
 }
 
 update();
-
