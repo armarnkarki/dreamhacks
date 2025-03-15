@@ -34,6 +34,71 @@ const maze = [
 ];
 
 
+// Images
+const moonImage = new Image();
+moonImage.src = 'moon.png';
+const starImage = new Image();
+starImage.src = 'star.png';
+
+// Check when images are loaded
+let imagesLoaded = 0;
+const totalImages = 2; // 2 images: moon and star
+
+function imageLoaded() {
+    imagesLoaded++;
+    console.log("Image Loaded", imagesLoaded); // Debugging line
+    if (imagesLoaded === totalImages) {
+        update(); // Start game once all images are loaded
+    }
+}
+
+// Function to check for collision between Pac-Man and an item
+function checkCollision(item) {
+    return pacman.x === item.x && pacman.y === item.y;
+}
+
+moonImage.onload = imageLoaded;
+starImage.onload = imageLoaded;
+
+let score = 0;
+
+// Function to display the score
+function displayScore() {
+    ctx.fillStyle = "white";
+    ctx.font = "20px Arial";
+    ctx.fillText("Score: " + score, 10, 20);
+}
+
+const pacmanStart = { x: 1, y: 1 };
+// Function to generate random coordinates for the items
+function getRandomPosition() {
+    let x, y;
+    do {
+        x = Math.floor(Math.random() * maze[0].length);
+        y = Math.floor(Math.random() * maze.length);
+    } while (maze[y][x] === 1 || (x === pacmanStart.x && y === pacmanStart.y));  // Avoid wall and Pac-Man's starting position
+    return { x, y };
+}
+
+// Randomly generate positions for two moons and one star
+const moonPositions = [getRandomPosition(), getRandomPosition()];
+const starPosition = getRandomPosition();
+
+// Draw items (moons and star)
+function drawItems() {
+    // Draw two moons
+    moonPositions.forEach(position => {
+        ctx.drawImage(moonImage, position.x * tileSize, position.y * tileSize, tileSize, tileSize);
+    });
+
+    // Draw one star if it's still in the maze
+    if (starPosition.x !== -1 && starPosition.y !== -1) {
+        ctx.drawImage(starImage, starPosition.x * tileSize, starPosition.y * tileSize, tileSize, tileSize);
+    }
+}
+
+
+
 // Pac-Man properties
 const pacman = {
     x: 1, // Starting column (1)
@@ -83,6 +148,21 @@ function movePacman() {
         if (maze[newY][newX] !== 1) {
             pacman.x = newX;
             pacman.y = newY;
+
+            // Check for collisions with moons
+            for (let i = moonPositions.length - 1; i >= 0; i--) {
+                if (checkCollision(moonPositions[i])) {
+                    moonPositions.splice(i, 1); // Remove the moon from the array
+                    score++; // Increment score
+                }
+            }
+
+            // Check for collision with the star
+            if (checkCollision(starPosition)) {
+                starPosition.x = -1; // Move the star out of the maze
+                starPosition.y = -1;
+                score++; // Increment score
+            }
         }
     }
 }
@@ -113,6 +193,8 @@ function update() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMaze();
     drawPacman();
+    drawItems(); // Draw the items
+    displayScore(); // Display the score
     requestAnimationFrame(update);
 }
 
