@@ -1,9 +1,61 @@
 body {
     text-align: center;
     background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+
 }
 
 canvas {
     border: 2px solid white;
 }
 
+#gameCanvas {
+    opacity: 0.2;
+}
+
+img {
+    width: 30px;
+
+}
+
+#startpage {
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 20px; /* Increased gap for better spacing */
+    position: absolute; 
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Stylish effects */
+    background: rgba(0, 0, 0, 0.8); /* Slightly darkened background */
+    border: 3px solid #ffffff;
+    border-radius: 15px; /* Smooth rounded corners */
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); /* Glowing effect */
+    padding: 40px; /* Added padding for breathing space */
+}
+
+#startpage p {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: pulse 1.5s infinite alternate; /* Cool pulse effect */
+}
+
+@keyframes pulse {
+    from {
+        opacity: 0.6;
+    }
+    to {
+        opacity: 1;
+    }
+}
