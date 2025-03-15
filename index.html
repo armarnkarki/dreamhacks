@@ -50,10 +50,16 @@
             const startPage = document.getElementById('startpage');
             const gameCanvas = document.getElementById('gameCanvas');
             const playButton = startPage.querySelector('img');
+            const playAgainButton = document.getElementById('playAgain');
+            
             playButton.addEventListener('click', function() {
                 startPage.classList.add('hidden');
                 gameCanvas.style.opacity = '1';
             });
+
+            playAgainButton.addEventListener('click', function() {
+                location.reload();
+            });           
         });
     </script>
 
