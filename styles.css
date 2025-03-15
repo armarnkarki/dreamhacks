@@ -1,9 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
     text-align: center;
     background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0; 
 }
 
 canvas {
     border: 2px solid white;
 }
 
+#gameCanvas {
+    opacity: 0.2;
+}
+
+img {
+    width: 30px;
+}
+
+
+#startpage {
+    color: yellow;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    font-family: 'Press Start 2P', cursive;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#startpage img {
+    width: 60px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 8px yellow);
+}
+
+#winScreen {
+    color: #00ff00;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    font-family: 'Press Start 2P', cursive;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.9);
+    border: 3px solid #00ff00;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
+    text-align: center;
+    z-index: 1000;
+}
+
+#winScreen h1 {
+    margin: 0;
+    font-size: 2rem;
+    animation: glow 1s ease-in-out infinite alternate;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #fbed2b;
+    }
+    to {
+        text-shadow: 0 0 20px #faf328, 0 0 30px #e2f71e;
+    }
+}body {
+    text-align: center;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0; 
+}
+
+canvas {
+    border: 2px solid white;
+}
+
+#gameCanvas {
+    opacity: 0.2;
+}
+
+img {
+    width: 30px;
+}
+
+
+#startpage {
+    color: yellow;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    font-family: 'Press Start 2P', cursive;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#startpage img {
+    width: 60px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 8px yellow);
+}
+
+#winScreen {
+    color: #fce813;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    font-family: 'Press Start 2P', cursive;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.9);
+    border: 3px solid #f3f639;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(245, 170, 19, 0.4);
+    text-align: center;
+    z-index: 1000;
+}
+
+#winScreen h1 {
+    margin: 0;
+    font-size: 2rem;
+    animation: glow 1s ease-in-out infinite alternate;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#playAgain {
+    background: #f8c11b;
+    border: 2px solid #000;
+    padding: 10px 20px;
+    font-family: 'Press Start 2P', cursive;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#playAgain:hover {
+    background: #ffe734;
+    box-shadow: 0 0 15px #f7eb08;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #f4ed21;
+    }
+    to {
+        text-shadow: 0 0 20px #f8ff2d, 0 0 30px #fff83e;
+    }
+}

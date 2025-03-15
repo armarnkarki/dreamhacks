@@ -223,7 +223,13 @@ function drawPacman() {
     ctx.fill();
     ctx.closePath();
 }
-
+function displayWinScreen() {
+    // Show the styled win screen div
+    document.getElementById('winScreen').classList.remove('hidden');
+    
+    // Optional: Hide or dim the game canvas if needed
+    document.getElementById('gameCanvas').style.opacity = '0.2';
+}
 // Update game frame
 function update() {
     movePacman();
@@ -232,6 +238,11 @@ function update() {
     drawPacman();
     drawItems(); // Draw the items
     // displayScore(); // Display the score
+    if (moonPositions.length === 0 && starPosition.x === -1) {
+        displayWinScreen();
+        return; // Stop the game loop
+    }
+
     requestAnimationFrame(update);
 }
 
