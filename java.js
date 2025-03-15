@@ -35,6 +35,27 @@ const maze = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 ];
 
+function modifyMaze(maze) {
+    for (let i = 0; i < maze.length; i++) {
+        for (let j = 0; j < maze[i].length; j++) {
+            // Check if the current cell is a 1 and not a wall
+            if (maze[i][j] === 1 && !isWall(maze, i, j)) {
+                // 10% chance to change 1 to 0
+                if (Math.random() < 0.12) {
+                    maze[i][j] = 0;
+                }
+            }
+        }
+    }
+    return maze;
+}
+
+function isWall(maze, i, j) {
+    // Check if the cell is on the border of the maze
+    return i === 0 || i === maze.length - 1 || j === 0 || j === maze[i].length - 1;
+}
+
+const modifiedMaze = modifyMaze(maze);
 
 // Images
 const moonImage = new Image();
@@ -247,7 +268,8 @@ function snapToGrid() {
 function drawMaze() {
     for (let row = 0; row < maze.length; row++) {
         for (let col = 0; col < maze[row].length; col++) {
-            ctx.fillStyle = maze[row][col] === 1 ? "blue" : "black";
+            // Set the fillStyle to have 80% opacity
+            ctx.fillStyle = maze[row][col] === 1 ? "rgba(241, 168, 255, 0.8)" : "transparent"; // 80% opacity
             ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
         }
     }
@@ -272,7 +294,13 @@ function drawPacman() {
     ctx.fill();
     ctx.closePath();
 }
-
+function displayWinScreen() {
+    // Show the styled win screen div
+    document.getElementById('winScreen').classList.remove('hidden');
+    
+    // Optional: Hide or dim the game canvas if needed
+    document.getElementById('gameCanvas').style.opacity = '0.2';
+}
 // Update game frame
 function update() {
     movePacman();
@@ -283,6 +311,11 @@ function update() {
     drawChaser();
     drawItems(); // Draw the items
     // displayScore(); // Display the score
+    if (moonPositions.length === 0 && starPosition.x === -1) {
+        displayWinScreen();
+        return; // Stop the game loop
+    }
+
     requestAnimationFrame(update);
 }
 
