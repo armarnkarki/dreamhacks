@@ -5,7 +5,7 @@ canvas.width = 690;
 canvas.height = 690; 
 
 const tileSize = 30;
-const speed = 1.5;
+const speed = 1;
 const turnLeeway = 6; // Allows slight misalignment for smoother turning
 
 // Maze layout (1 = Wall, 0 = Path)
@@ -64,12 +64,12 @@ starImage.onload = imageLoaded;
 
 let score = 0;
 
-// Function to display the score
-function displayScore() {
-    ctx.fillStyle = "white";
-    ctx.font = "20px Arial";
-    ctx.fillText("Score: " + score, 10, 20);
-}
+// // Function to display the score
+// function displayScore() {
+//     ctx.fillStyle = "white";
+//     ctx.font = "20px Arial";
+//     ctx.fillText("Score: " + score, 10, 20);
+// }
 
 const pacmanStart = { x: 1, y: 1 };
 // Function to generate random coordinates for the items
@@ -138,6 +138,15 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
+function checkCollision(item) {
+    return (
+        pacman.x < item.x * tileSize + tileSize &&
+        pacman.x + tileSize > item.x * tileSize &&
+        pacman.y < item.y * tileSize + tileSize &&
+        pacman.y + tileSize > item.y * tileSize
+    );
+}
+
 function movePacman() {
     let newX = pacman.x + nextDx * speed;
     let newY = pacman.y + nextDy * speed;
@@ -155,6 +164,22 @@ function movePacman() {
     if (canMove(newX, newY)) {
         pacman.x = newX;
         pacman.y = newY;
+    }
+
+    // Check for collisions with moons
+    for (let i = 0; i < moonPositions.length; i++) {
+        if (checkCollision(moonPositions[i])) {
+            score += 10; // Increase score for collecting a moon
+            moonPositions.splice(i, 1); // Remove the moon from the array
+            i--; // Adjust index after removal
+        }
+    }
+
+    // Check for collision with the star
+    if (checkCollision(starPosition)) {
+        score += 50; // Increase score for collecting the star
+        starPosition.x = -1; // Remove the star from the maze
+        starPosition.y = -1; // Remove the star from the maze
     }
 }
 
@@ -206,7 +231,7 @@ function update() {
     drawMaze();
     drawPacman();
     drawItems(); // Draw the items
-    displayScore(); // Display the score
+    // displayScore(); // Display the score
     requestAnimationFrame(update);
 }
 
