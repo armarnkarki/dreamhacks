@@ -15,6 +15,28 @@ canvas {
 }
 
 
+.hidden {
+    display: none;
+}
+
+#gameOverScreen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+}
+
+#gameOverScreen button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
 
 body, html {
     margin: 0;

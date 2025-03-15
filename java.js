@@ -5,7 +5,7 @@ canvas.width = 690;
 canvas.height = 690; 
 
 const tileSize = 30;
-const speed = 1;
+const speed = 2;
 const turnLeeway = 6; // Allows slight misalignment for smoother turning
 
 // Maze layout (1 = Wall, 0 = Path)
@@ -309,8 +309,15 @@ function update() {
     drawMaze();
     drawPacman();
     drawChaser();
-    drawItems(); // Draw the items
-    // displayScore(); // Display the score
+    drawItems();
+
+    // Check for collision between Pac-Man and the chaser
+    if (checkChaserCollision()) {
+        displayGameOverScreen();
+        return; // Stop the game loop
+    }
+
+    // Check for win condition
     if (moonPositions.length === 0 && starPosition.x === -1) {
         displayWinScreen();
         return; // Stop the game loop
@@ -318,5 +325,55 @@ function update() {
 
     requestAnimationFrame(update);
 }
+function displayGameOverScreen() {
+    // Show the styled game-over screen div
+    document.getElementById('gameOverScreen').classList.remove('hidden');
+    
+    // Optional: Hide or dim the game canvas if needed
+    document.getElementById('gameCanvas').style.opacity = '0.2';
+}
+document.getElementById('restartGame').addEventListener('click', function () {
+    // Reset game state
+    resetGame();
+    
+    // Hide the game-over screen
+    document.getElementById('gameOverScreen').classList.add('hidden');
+    
+    // Reset canvas opacity
+    document.getElementById('gameCanvas').style.opacity = '1';
+    
+    // Restart the game loop
+    update();
+});
+function resetGame() {
+    // Reset Pac-Man and chaser positions
+    pacman.x = 1 * tileSize;
+    pacman.y = 1 * tileSize;
+    pacman.dx = 0;
+    pacman.dy = 0;
+
+    chaser.x = 21 * tileSize;
+    chaser.y = 21 * tileSize;
+    chaser.dx = 0;
+    chaser.dy = 0;
+
+    // Reset score
+    score = 0;
+
+    // Reset moon and star positions
+    moonPositions.length = 0;
+    moonPositions.push(getRandomPosition(), getRandomPosition());
+    starPosition.x = getRandomPosition().x;
+    starPosition.y = getRandomPosition().y;
+}
+function checkChaserCollision() {
+    return (
+        pacman.x < chaser.x + tileSize &&
+        pacman.x + tileSize > chaser.x &&
+        pacman.y < chaser.y + tileSize &&
+        pacman.y + tileSize > chaser.y
+    );
+}
+
 
 update();
