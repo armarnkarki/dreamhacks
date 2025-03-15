@@ -33,7 +33,29 @@
         <span></span>
     </section>
     <script src="java.js"></script>
+    <h1></h1>
+    
+    <div id="startpage">
+        <img src="assets/playbutton.png" alt="playbutton">
+        <h3> Press Start </h3>
+    </div>
 
+    <div id="winScreen" class="hidden">
+        <h1>YOU WIN!</h1>
+        <button id="playAgain">Play Again</button>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const startPage = document.getElementById('startpage');
+            const gameCanvas = document.getElementById('gameCanvas');
+            const playButton = startPage.querySelector('img');
+            playButton.addEventListener('click', function() {
+                startPage.classList.add('hidden');
+                gameCanvas.style.opacity = '1';
+            });
+        });
+    </script>
 
 </body>
 </html>
