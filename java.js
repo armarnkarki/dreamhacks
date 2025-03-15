@@ -36,9 +36,9 @@ const maze = [
 
 // Images
 const moonImage = new Image();
-moonImage.src = 'moon.jpg';
+moonImage.src = 'moon.png';
 const starImage = new Image();
-starImage.src = 'star.jpg';
+starImage.src = 'star.png';
 
 // Check when images are loaded
 let imagesLoaded = 0;
