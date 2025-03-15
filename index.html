@@ -56,6 +56,8 @@
     const startPage = document.getElementById('startpage');
     const gameCanvas = document.getElementById('gameCanvas');
     const playButton = startPage.querySelector('img');
+    const playAgainButton = document.getElementById('playAgain');
+    const restartGameButton = document.getElementById('restartGame');
 
     // Function to start the game
     function startGame() {
@@ -71,6 +73,16 @@
         if (event.key === 'Enter' || event.key === ' ') { // Check for Enter or Spacebar
             startGame();
         }
+    });
+
+    // Click event for the play again button
+    playAgainButton.addEventListener('click', function () {
+        location.reload();
+    });
+
+    // Click event for the restart game button
+    restartGameButton.addEventListener('click', function () {
+        location.reload();
     });
 });
     </script>
