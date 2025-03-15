@@ -60,6 +60,15 @@ function checkCollision(item) {
 moonImage.onload = imageLoaded;
 starImage.onload = imageLoaded;
 
+let score = 0;
+
+// Function to display the score
+function displayScore() {
+    ctx.fillStyle = "white";
+    ctx.font = "20px Arial";
+    ctx.fillText("Score: " + score, 10, 20);
+}
+
 const pacmanStart = { x: 1, y: 1 };
 // Function to generate random coordinates for the items
 function getRandomPosition() {
@@ -144,6 +153,7 @@ function movePacman() {
             for (let i = moonPositions.length - 1; i >= 0; i--) {
                 if (checkCollision(moonPositions[i])) {
                     moonPositions.splice(i, 1); // Remove the moon from the array
+                    score++; // Increment score
                 }
             }
 
@@ -151,6 +161,7 @@ function movePacman() {
             if (checkCollision(starPosition)) {
                 starPosition.x = -1; // Move the star out of the maze
                 starPosition.y = -1;
+                score++; // Increment score
             }
         }
     }
@@ -183,6 +194,7 @@ function update() {
     drawMaze();
     drawPacman();
     drawItems(); // Draw the items
+    displayScore(); // Display the score
     requestAnimationFrame(update);
 }
 
