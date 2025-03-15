@@ -282,18 +282,20 @@ function drawChaser() {
 
 
 // Draw Pac-Man
+const pacmanImage = new Image();
+pacmanImage.src = 'stickman.png'; // Set the correct path to your Pac-Man image
+
+// Draw Pac-Man with an image
 function drawPacman() {
-    ctx.beginPath();
-    ctx.arc(
-        pacman.x + tileSize / 2, 
-        pacman.y + tileSize / 2, 
-        tileSize / 2.5, 0.2 * Math.PI, 1.8 * Math.PI
+    ctx.drawImage(
+        pacmanImage,
+        pacman.x, 
+        pacman.y, 
+        tileSize,  // Adjust the size of the image to match the tile size
+        tileSize   // Adjust the size of the image to match the tile size
     );
-    ctx.lineTo(pacman.x + tileSize / 2, pacman.y + tileSize / 2);
-    ctx.fillStyle = "yellow";
-    ctx.fill();
-    ctx.closePath();
 }
+
 function displayWinScreen() {
     // Show the styled win screen div
     document.getElementById('winScreen').classList.remove('hidden');
