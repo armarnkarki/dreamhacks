@@ -44,23 +44,35 @@
         <h1>YOU WIN!</h1>
         <button id="playAgain">Play Again</button>
     </div>
+
+    <div id="gameOverScreen" class="hidden">
+        <h1>GAME OVER!</h1>
+        <button id="restartGame">Play Again</button>
+    </div>
+    
     
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const startPage = document.getElementById('startpage');
-            const gameCanvas = document.getElementById('gameCanvas');
-            const playButton = startPage.querySelector('img');
-            const playAgainButton = document.getElementById('playAgain');
-            
-            playButton.addEventListener('click', function() {
-                startPage.classList.add('hidden');
-                gameCanvas.style.opacity = '1';
-            });
+        document.addEventListener('DOMContentLoaded', function () {
+    const startPage = document.getElementById('startpage');
+    const gameCanvas = document.getElementById('gameCanvas');
+    const playButton = startPage.querySelector('img');
 
-            playAgainButton.addEventListener('click', function() {
-                location.reload();
-            });           
-        });
+    // Function to start the game
+    function startGame() {
+        startPage.classList.add('hidden');
+        gameCanvas.style.opacity = '1';
+    }
+
+    // Click event for the play button
+    playButton.addEventListener('click', startGame);
+
+    // Keydown event for Enter and Spacebar
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') { // Check for Enter or Spacebar
+            startGame();
+        }
+    });
+});
     </script>
 
 </body>
