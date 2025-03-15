@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
     text-align: center;
     background-color: black;
@@ -5,8 +7,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
-
+    margin: 0; 
 }
 
 canvas {
@@ -19,43 +20,158 @@ canvas {
 
 img {
     width: 30px;
-
 }
 
+
 #startpage {
-    color: #ffffff;
+    color: yellow;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    gap: 20px; /* Increased gap for better spacing */
-    position: absolute; 
-    top: 50%; 
+    gap: 25px;
+    position: absolute;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    
-    /* Stylish effects */
-    background: rgba(0, 0, 0, 0.8); /* Slightly darkened background */
-    border: 3px solid #ffffff;
-    border-radius: 15px; /* Smooth rounded corners */
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); /* Glowing effect */
-    padding: 40px; /* Added padding for breathing space */
-}
-
-#startpage p {
-    font-size: 24px;
-    font-weight: bold;
-    letter-spacing: 2px;
+    padding: 40px;
+    font-family: 'Press Start 2P', cursive;
     text-transform: uppercase;
-    animation: pulse 1.5s infinite alternate; /* Cool pulse effect */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-@keyframes pulse {
+#startpage img {
+    width: 60px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 8px yellow);
+}
+
+#winScreen {
+    color: #00ff00;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    font-family: 'Press Start 2P', cursive;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.9);
+    border: 3px solid #00ff00;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
+    text-align: center;
+    z-index: 1000;
+}
+
+#winScreen h1 {
+    margin: 0;
+    font-size: 2rem;
+    animation: glow 1s ease-in-out infinite alternate;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@keyframes glow {
     from {
-        opacity: 0.6;
+        text-shadow: 0 0 10px #00ff00;
     }
     to {
-        opacity: 1;
+        text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
+    }
+}body {
+    text-align: center;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0; 
+}
+
+canvas {
+    border: 2px solid white;
+}
+
+#gameCanvas {
+    opacity: 0.2;
+}
+
+img {
+    width: 30px;
+}
+
+
+#startpage {
+    color: yellow;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    font-family: 'Press Start 2P', cursive;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#startpage img {
+    width: 60px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 8px yellow);
+}
+
+#winScreen {
+    color: #00ff00;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    font-family: 'Press Start 2P', cursive;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.9);
+    border: 3px solid #00ff00;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
+    text-align: center;
+    z-index: 1000;
+}
+
+#winScreen h1 {
+    margin: 0;
+    font-size: 2rem;
+    animation: glow 1s ease-in-out infinite alternate;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #00ff00;
+    }
+    to {
+        text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
     }
 }
