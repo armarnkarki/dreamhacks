@@ -7,3 +7,140 @@ canvas {
     border: 2px solid white;
 }
 
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent scrollbars */
+    height: 100%;
+    position: relative;
+}
+
+
+.cloud {
+    position: absolute;
+    opacity: 0.5; /* 50% opacity */
+    z-index: 2; /* Ensure clouds are above the canvas */
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.cloud img {
+    width: 100%;
+    height: auto;
+}
+
+.cloud1, .cloud2, .cloud3, .cloud4 {
+    width: 350px; /* Set a specific width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Define animations for each cloud */
+.cloud1 {
+    animation-name: floatRightToLeft;
+    animation-duration: 20s;
+    animation-iteration-count: infinite;
+
+    top: 10%;
+    left: 0;
+}
+
+.cloud2 {
+    animation-name: floatLeftToRight;
+    animation-duration: 25s;
+    animation-iteration-count: infinite;
+
+    top: 30%;
+    left: 50%;
+}
+
+.cloud3 {
+    animation-name: floatRightToLeft;
+    animation-duration: 30s;
+    animation-iteration-count: infinite;
+
+    top: 50%;
+    left: 0;
+}
+
+.cloud4 {
+    animation-name: floatLeftToRight;
+    animation-duration: 35s;
+    animation-iteration-count: infinite;
+
+    top: 70%;
+    left: 50%;
+}
+
+.cloud5 {
+    animation-name: floatRightToLeft;
+    animation-duration: 20s;
+    animation-iteration-count: infinite;
+
+    top: 80%;
+    left: 20%;
+}
+
+.cloud6 {
+    animation-name: floatLeftToRight;
+    animation-duration: 25s;
+    animation-iteration-count: infinite;
+
+    top: 60%;
+    left: 33%;
+}
+
+.cloud7 {
+    animation-name: floatRightToLeft;
+    animation-duration: 30s;
+    animation-iteration-count: infinite;
+
+    top: 40%;
+    left:77%;
+}
+
+.cloud8 {
+    animation-name: floatLeftToRight;
+    animation-duration: 35s;
+    animation-iteration-count: infinite;
+
+    top: 20%;
+    left: 90%;
+}
+
+/* Keyframes for left to right movement */
+@keyframes floatLeftToRight {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0; /* Start with 0 opacity */
+    }
+    10% {
+        opacity: 0.5; /* Fade in quickly */
+    }
+    90% {
+        opacity: 0.5; /* Stay visible for most of the animation */
+    }
+    100% {
+        transform: translateX(100vw);
+        opacity: 0; /* Fade out at the end */
+    }
+}
+
+/* Keyframes for right to left movement with fade-out */
+@keyframes floatRightToLeft {
+    0% {
+        transform: translateX(100vw);
+        opacity: 0; /* Start with 0 opacity */
+    }
+    10% {
+        opacity: 0.5; /* Fade in quickly */
+    }
+    90% {
+        opacity: 0.5; /* Stay visible for most of the animation */
+    }
+    100% {
+        transform: translateX(-100%);
+        opacity: 0; /* Fade out at the end */
+    }
+}
