@@ -62,6 +62,8 @@ const moonImage = new Image();
 moonImage.src = 'moon.png';
 const starImage = new Image();
 starImage.src = 'star.png';
+const chaserImage = new Image();
+chaserImage.src = 'chaser.png';
 
 // Check when images are loaded
 let imagesLoaded = 0;
@@ -82,7 +84,7 @@ function checkCollision(item) {
 
 moonImage.onload = imageLoaded;
 starImage.onload = imageLoaded;
-
+chaserImage.onload = imageLoaded;
 let score = 0;
 
 // // Function to display the score
@@ -130,6 +132,13 @@ const pacman = {
     dy: 0
 };
 
+const chaser = {
+    x: 21 * tileSize, // Starting position
+    y: 21 * tileSize, 
+    dx: 0, 
+    dy: 0
+};
+
 // Function to check if next move is valid
 function canMove(newX, newY) {
     let leftTile = Math.floor(newX / tileSize);
@@ -156,6 +165,20 @@ document.addEventListener("keydown", (event) => {
         nextDx = -1; nextDy = 0;
     } else if (event.key === "ArrowRight") {
         nextDx = 1; nextDy = 0;
+    }
+});
+
+let nextChaserDx = 0, nextChaserDy = 0; // Store intended direction
+// Event listeners for WASD keys
+document.addEventListener("keydown", (event) => {
+    if (event.key === "w") {
+        nextChaserDx = 0; nextChaserDy = -1;
+    } else if (event.key === "s") {
+        nextChaserDx = 0; nextChaserDy = 1;
+    } else if (event.key === "a") {
+        nextChaserDx = -1; nextChaserDy = 0;
+    } else if (event.key === "d") {
+        nextChaserDx = 1; nextChaserDy = 0;
     }
 });
 
@@ -204,6 +227,26 @@ function movePacman() {
     }
 }
 
+function moveChaser() {
+    let newX = chaser.x + nextChaserDx * speed;
+    let newY = chaser.y + nextChaserDy * speed;
+
+    // If the intended direction is valid, switch to it
+    if (canMove(newX, newY)) {
+        chaser.dx = nextChaserDx;
+        chaser.dy = nextChaserDy;
+    }
+
+    // Continue moving in the last valid direction
+    newX = chaser.x + chaser.dx * speed;
+    newY = chaser.y + chaser.dy * speed;
+
+    if (canMove(newX, newY)) {
+        chaser.x = newX;
+        chaser.y = newY;
+    }
+}
+
 // Check if Pac-Man is close enough to a corner to allow a turn
 function isNearCorner(x, y, dx, dy) {
     let gridX = Math.round(x / tileSize) * tileSize;
@@ -232,6 +275,12 @@ function drawMaze() {
     }
 }
 
+function drawChaser() {
+    ctx.drawImage(chaserImage, chaser.x, chaser.y, tileSize, tileSize);
+}
+
+
+
 // Draw Pac-Man
 function drawPacman() {
     ctx.beginPath();
@@ -255,9 +304,11 @@ function displayWinScreen() {
 // Update game frame
 function update() {
     movePacman();
+    moveChaser();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMaze();
     drawPacman();
+    drawChaser();
     drawItems(); // Draw the items
     // displayScore(); // Display the score
     if (moonPositions.length === 0 && starPosition.x === -1) {
