@@ -5,6 +5,8 @@ canvas.width = 690;
 canvas.height = 690; 
 
 const tileSize = 30;
+const speed = 1.5;
+const turnLeeway = 6; // Allows slight misalignment for smoother turning
 
 // Maze layout (1 = Wall, 0 = Path)
 const maze = [
@@ -101,25 +103,84 @@ function drawItems() {
 
 // Pac-Man properties
 const pacman = {
-    x: 1, // Starting column (1)
-    y: 1, // Starting row (1)
-    size: tileSize / 2,
-    speed: 1,
-    dx: 0, // Direction X
-    dy: 0  // Direction Y
+    x: 1 * tileSize, 
+    y: 1 * tileSize, 
+    dx: 0, 
+    dy: 0
 };
+
+// Function to check if next move is valid
+function canMove(newX, newY) {
+    let leftTile = Math.floor(newX / tileSize);
+    let rightTile = Math.floor((newX + tileSize - 1) / tileSize);
+    let topTile = Math.floor(newY / tileSize);
+    let bottomTile = Math.floor((newY + tileSize - 1) / tileSize);
+
+    return (
+        maze[topTile][leftTile] !== 1 &&
+        maze[topTile][rightTile] !== 1 &&
+        maze[bottomTile][leftTile] !== 1 &&
+        maze[bottomTile][rightTile] !== 1
+    );
+}
+
+let nextDx = 0, nextDy = 0; // Store intended direction
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowUp") {
+        nextDx = 0; nextDy = -1;
+    } else if (event.key === "ArrowDown") {
+        nextDx = 0; nextDy = 1;
+    } else if (event.key === "ArrowLeft") {
+        nextDx = -1; nextDy = 0;
+    } else if (event.key === "ArrowRight") {
+        nextDx = 1; nextDy = 0;
+    }
+});
+
+function movePacman() {
+    let newX = pacman.x + nextDx * speed;
+    let newY = pacman.y + nextDy * speed;
+
+    // If the intended direction is valid, switch to it
+    if (canMove(newX, newY)) {
+        pacman.dx = nextDx;
+        pacman.dy = nextDy;
+    }
+
+    // Continue moving in the last valid direction
+    newX = pacman.x + pacman.dx * speed;
+    newY = pacman.y + pacman.dy * speed;
+
+    if (canMove(newX, newY)) {
+        pacman.x = newX;
+        pacman.y = newY;
+    }
+}
+
+// Check if Pac-Man is close enough to a corner to allow a turn
+function isNearCorner(x, y, dx, dy) {
+    let gridX = Math.round(x / tileSize) * tileSize;
+    let gridY = Math.round(y / tileSize) * tileSize;
+
+    return (
+        Math.abs(x - gridX) < turnLeeway ||
+        Math.abs(y - gridY) < turnLeeway
+    );
+}
+
+// Snap Pac-Man to the grid to allow smooth turns
+function snapToGrid() {
+    pacman.x = Math.round(pacman.x / tileSize) * tileSize;
+    pacman.y = Math.round(pacman.y / tileSize) * tileSize;
+}
 
 // Draw the maze
 function drawMaze() {
     for (let row = 0; row < maze.length; row++) {
         for (let col = 0; col < maze[row].length; col++) {
-            if (maze[row][col] === 1) {
-                ctx.fillStyle = "blue"; 
-                ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
-            } else {
-                ctx.fillStyle = "black";
-                ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
-            }
+            ctx.fillStyle = maze[row][col] === 1 ? "blue" : "black";
+            ctx.fillRect(col * tileSize, row * tileSize, tileSize, tileSize);
         }
     }
 }
@@ -128,68 +189,19 @@ function drawMaze() {
 function drawPacman() {
     ctx.beginPath();
     ctx.arc(
-        pacman.x * tileSize + tileSize / 2, 
-        pacman.y * tileSize + tileSize / 2, 
-        pacman.size, 0.2 * Math.PI, 1.8 * Math.PI
+        pacman.x + tileSize / 2, 
+        pacman.y + tileSize / 2, 
+        tileSize / 2.5, 0.2 * Math.PI, 1.8 * Math.PI
     );
-    ctx.lineTo(pacman.x * tileSize + tileSize / 2, pacman.y * tileSize + tileSize / 2);
+    ctx.lineTo(pacman.x + tileSize / 2, pacman.y + tileSize / 2);
     ctx.fillStyle = "yellow";
     ctx.fill();
     ctx.closePath();
 }
 
-// Move Pac-Man by one block
-function movePacman() {
-    let newX = pacman.x + pacman.dx;
-    let newY = pacman.y + pacman.dy;
-
-    // Check if the new position is within the maze bounds and not a wall
-    if (newX >= 0 && newX < maze[0].length && newY >= 0 && newY < maze.length) {
-        if (maze[newY][newX] !== 1) {
-            pacman.x = newX;
-            pacman.y = newY;
-
-            // Check for collisions with moons
-            for (let i = moonPositions.length - 1; i >= 0; i--) {
-                if (checkCollision(moonPositions[i])) {
-                    moonPositions.splice(i, 1); // Remove the moon from the array
-                    score++; // Increment score
-                }
-            }
-
-            // Check for collision with the star
-            if (checkCollision(starPosition)) {
-                starPosition.x = -1; // Move the star out of the maze
-                starPosition.y = -1;
-                score++; // Increment score
-            }
-        }
-    }
-}
-
-// Handle keydown events (move Pac-Man one block)
-document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowUp") {
-        pacman.dx = 0;
-        pacman.dy = -1;
-        movePacman(); // Move one block
-    } else if (event.key === "ArrowDown") {
-        pacman.dx = 0;
-        pacman.dy = 1;
-        movePacman(); // Move one block
-    } else if (event.key === "ArrowLeft") {
-        pacman.dx = -1;
-        pacman.dy = 0;
-        movePacman(); // Move one block
-    } else if (event.key === "ArrowRight") {
-        pacman.dx = 1;
-        pacman.dy = 0;
-        movePacman(); // Move one block
-    }
-});
-
 // Update game frame
 function update() {
+    movePacman();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMaze();
     drawPacman();
