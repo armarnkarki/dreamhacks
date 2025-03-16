@@ -59,9 +59,9 @@ const modifiedMaze = modifyMaze(maze);
 
 // Images
 const moonImage = new Image();
-moonImage.src = 'moon.png';
+moonImage.src = 'Canvas11.png';
 const starImage = new Image();
-starImage.src = 'star.png';
+starImage.src = 'canvas22.png';
 const chaserImage = new Image();
 chaserImage.src = 'chaser.png';
 
