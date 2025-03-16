@@ -1,13 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 body {
+    background: linear-gradient(to bottom, #a18cd1, #fbc2eb);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     text-align: center;
-    background-color: black;
+    /* background-color: black; */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0; 
+    padding: 0;
 }
 
 canvas {
